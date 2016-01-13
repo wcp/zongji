@@ -11,6 +11,8 @@ wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.41-linux2.6-x86_64.t
 tar -zxf mysql-5.5.41-linux2.6-x86_64.tar.gz
 wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22-linux-glibc2.5-x86_64.tar.gz
 tar -zxf mysql-5.6.22-linux-glibc2.5-x86_64.tar.gz
+wget http://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
+tar -zxf mysql-5.7.10-linux-glibc2.5-x86_64.tar.gz
 # --------------------------------------------
 
 # Prepare 5.1.73
@@ -66,6 +68,27 @@ touch binlog/mysql-bin.index
 
 # Start server, do not display errors as there will be `mysql` schema diffs
 nohup ./bin/mysqld --defaults-file=my.cnf > /dev/null 2>&1 &
+sleep 4
+
+cd ..
+
+# --------------------------------------------
+
+# Prepare 5.7.10
+cd mysql-5.7.10-linux-glibc2.5-x86_64/
+
+mkdir -p data
+
+# Initialize database
+bin/mysqld --initialize-insecure --user=$USER --datadir=./data/mysql
+
+# Copy configuration
+cp ../test/travis/my.5.7.cnf ./my.cnf
+mkdir binlog
+touch binlog/mysql-bin.index
+
+# Start Server
+./bin/mysqld --defaults-file=my.cnf &
 sleep 4
 
 cd ..
