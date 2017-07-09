@@ -11,5 +11,4 @@ module.exports = {
   },
   database: 'zongji_test',
   sessionSqlMode: process.env.TEST_SESSION_SQL_MODE || ''
-}
-
+};
