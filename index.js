@@ -282,7 +282,9 @@ ZongJi.prototype.start = function(options) {
         self.binlogNextPos = event.nextPosition;
         self.connection.pause();
         self.emit("binlog", event, err => {
-          if (err) return self.emit("error", err);
+          if (err) {
+            return self.emit("error", err);
+          }
           self.connection.resume();
         });
       })
